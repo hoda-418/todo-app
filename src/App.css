@@ -1,0 +1,403 @@
+/* ============================================
+   App.css - Complete redesign
+   ============================================ */
+
+/* 1. RESET & BASE STYLES
+   -------------------------
+   Removes default browser margins/paddings
+   and sets a consistent box-sizing model.
+   */
+* {
+  margin: 0;                /* Removes default margin from all elements */
+  padding: 0;               /* Removes default padding from all elements */
+  box-sizing: border-box;   /* Makes width/height include padding+border */
+}
+
+/* 2. GLOBAL BODY STYLES
+   -------------------------
+   Creates a soft gradient background (peach to cream).
+   Sets a friendly font (Quicksand first, then fallbacks).
+   */
+body {
+  background: linear-gradient(145deg, #fdeff2 0%, #fff4e6 100%);
+  /* Gradient from light pink to warm cream – gives a cute vibe */
+  font-family: 'Quicksand', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  /* Quicksand is rounded and friendly; fallbacks for all systems */
+  min-height: 100vh;        /* Full viewport height even if content is short */
+  padding: 2rem 1rem;       /* Space around the app on small screens */
+}
+
+/* 3. MAIN APP CONTAINER (CARD)
+   -------------------------------
+   White-ish card with blur, shadow, and rounded corners.
+   Limited max-width for readability on large screens.
+   */
+.app-container {
+  max-width: 750px;         /* Prevents stretching too wide on desktop */
+  margin: 0 auto;           /* Centers the card horizontally */
+  background: rgba(255, 255, 255, 0.92); /* Semi-transparent white */
+  backdrop-filter: blur(2px); /* Slight blur on background behind card */
+  border-radius: 2.5rem;    /* Big rounded corners = cute */
+  box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.5);
+  /* First shadow gives depth, second adds a subtle inner white border */
+  padding: 2rem 1.8rem;     /* Internal spacing */
+  transition: all 0.2s ease; /* Smooth hover effects if added later */
+}
+
+/* 4. HEADER SECTION
+   -------------------
+   Gradient text for the title and an emoji.
+   */
+.app-header {
+  text-align: center;       /* Centers the title */
+  margin-bottom: 2rem;      /* Space before the add-task area */
+}
+
+.app-header h1 {
+  font-size: 2.4rem;        /* Large but not overwhelming */
+  font-weight: 600;         /* Semi-bold */
+  background: linear-gradient(135deg, #ff8a7a, #ffb86b);
+  /* Creates a warm sunset gradient */
+  background-clip: text;    /* Standard property for text clipping */
+  -webkit-background-clip: text; /* Required for Safari/Chrome */
+  color: transparent;       /* Makes the background gradient visible through text */
+  letter-spacing: -0.3px;   /* Slightly tighter letters */
+  display: inline-flex;     /* Allows emoji and text to align nicely */
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* 5. ADD TASK SECTION (input + button)
+   --------------------------------------- */
+.add-task {
+  display: flex;            /* Puts input and button on the same line */
+  gap: 0.8rem;              /* Space between them */
+  margin-bottom: 2.2rem;    /* Distance from filter bar */
+  flex-wrap: wrap;          /* On very small screens, button goes below input */
+}
+
+.add-task input {
+  flex: 1;                  /* Takes all remaining width */
+  padding: 0.9rem 1.2rem;   /* Comfortable tap area */
+  border: 2px solid #ffe2e0; /* Soft pink border */
+  border-radius: 2rem;      /* Pill shape */
+  font-size: 1rem;
+  font-family: inherit;     /* Uses the same font as body */
+  background: white;
+  transition: all 0.25s;
+  outline: none;            /* Removes default blue outline, we add custom focus */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.add-task input:focus {
+  border-color: #ffb3aa;    /* Darker pink on focus */
+  box-shadow: 0 5px 14px rgba(255, 140, 120, 0.2); /* Glow effect */
+}
+
+.add-task button {
+  background: linear-gradient(100deg, #ff9a8b, #ff8a7a); /* Gradient button */
+  border: none;
+  padding: 0 1.8rem;
+  border-radius: 2.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 8px rgba(255, 110, 90, 0.3); /* Shadow makes it pop */
+  font-family: inherit;
+}
+
+.add-task button:hover {
+  transform: scale(0.96);   /* Slight shrink on hover – playful */
+  background: linear-gradient(100deg, #ff8a7a, #ff6e5a);
+  box-shadow: 0 2px 6px rgba(255, 80, 60, 0.4);
+}
+
+/* 6. FILTER BAR (All / Done / Not Done + task counter)
+   -------------------------------------------------------- */
+.filter-section {
+  background: #fff9f7;      /* Very light peach */
+  border-radius: 3rem;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 1.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: #f0e9e7;      /* Neutral grayish peach */
+  border: none;
+  padding: 0.5rem 1.3rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #5e4b44;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.filter-btn.active {
+  background: #ffb7ad;      /* Active filter gets a warm pink background */
+  color: white;
+  box-shadow: 0 4px 10px rgba(255, 130, 110, 0.3);
+}
+
+.filter-btn:hover:not(.active) {
+  background: #ffdad4;      /* Hover effect for non-active buttons */
+  transform: translateY(-2px);
+}
+
+.task-count {
+  background: #fff0ea;
+  padding: 0.4rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #c07160;
+}
+
+/* 7. TASK LIST (scrollable container)
+   -------------------------------------- */
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+  max-height: 55vh;          /* Limits height so list doesn't overflow page */
+  overflow-y: auto;          /* Adds vertical scroll if many tasks */
+  padding-right: 0.3rem;     /* Space for scrollbar */
+}
+
+/* Custom scrollbar styling (works in WebKit browsers) */
+.tasks-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tasks-list::-webkit-scrollbar-track {
+  background: #ffe3dc;
+  border-radius: 8px;
+}
+
+.tasks-list::-webkit-scrollbar-thumb {
+  background: #ffaa9c;
+  border-radius: 8px;
+}
+
+/* 8. INDIVIDUAL TASK CARD
+   -------------------------- */
+.task-item {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 0.7rem 1rem 0.7rem 1.2rem;
+  transition: all 0.2s;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ffe2db;
+}
+
+.task-item:hover {
+  transform: translateX(5px); /* Sliding effect on hover */
+  box-shadow: 0 8px 20px rgba(255, 120, 90, 0.1);
+  border-color: #ffc8bd;
+}
+
+/* View mode (checkbox + text + edit button) */
+.task-view {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.task-view input[type="checkbox"] {
+  width: 1.3rem;
+  height: 1.3rem;
+  accent-color: #ff8a7a;     /* Changes checkbox tick color to warm pink */
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.task-text {
+  flex: 1;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #2d2a2a;
+  word-break: break-word;    /* Long words will wrap */
+  transition: 0.2s;
+}
+
+.task-text.completed {
+  text-decoration: line-through; /* Strike-through for done tasks */
+  color: #c0a29a;
+  font-weight: 400;
+}
+
+.edit-btn {
+  background: #f2e3df;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #b2604e;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.edit-btn:hover {
+  background: #ffddd5;
+  color: #cc6b56;
+  transform: scale(0.95);
+}
+
+/* Edit mode (input + save/cancel) */
+.task-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  width: 100%;
+}
+
+.task-edit input {
+  padding: 0.7rem 1rem;
+  border-radius: 2rem;
+  border: 2px solid #ffcdc2;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  background: #fffcfb;
+}
+
+.task-edit input:focus {
+  border-color: #ffa090;
+  box-shadow: 0 0 0 2px rgba(255, 140, 120, 0.2);
+}
+
+.edit-actions {
+  display: flex;
+  gap: 0.7rem;
+  justify-content: flex-end;
+}
+
+.edit-actions button {
+  padding: 0.45rem 1.2rem;
+  border-radius: 2rem;
+  border: none;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: inherit;
+}
+
+.edit-actions button:first-child {
+  background: #9fdfc7;       /* Greenish for save */
+  color: #236653;
+}
+
+.edit-actions button:first-child:hover {
+  background: #7fcfb0;
+  transform: scale(0.96);
+}
+
+.edit-actions button:last-child {
+  background: #f5cfc8;       /* Peach for cancel */
+  color: #b35845;
+}
+
+.edit-actions button:last-child:hover {
+  background: #ffbcaf;
+  transform: scale(0.96);
+}
+
+/* 9. EMPTY STATE (no tasks)
+   ---------------------------- */
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: #fffbf9;
+  border-radius: 2rem;
+  margin-top: 1rem;
+  color: #d4a194;
+  font-weight: 500;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.empty-state span {
+  font-size: 2.8rem;
+  opacity: 0.7;
+}
+
+/* 10. RESPONSIVE BREAKPOINTS
+   ----------------------------- */
+@media (max-width: 550px) {
+  .app-container {
+    padding: 1.5rem;
+  }
+  .app-header h1 {
+    font-size: 1.9rem;
+  }
+  .add-task {
+    flex-direction: column; /* Stack input and button vertically */
+  }
+  .add-task button {
+    padding: 0.7rem;
+  }
+  .filter-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filter-buttons {
+    justify-content: center;
+  }
+  .task-count {
+    text-align: center;
+  }
+  .task-view {
+    flex-wrap: wrap;
+  }
+  .task-text {
+    width: 100%;
+    margin-left: 1.8rem;    /* Aligns with checkbox */
+    order: 2;                /* Pushes text below checkbox on wrap */
+  }
+  .edit-btn {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .edit-actions {
+    justify-content: stretch;
+  }
+  .edit-actions button {
+    flex: 1;                 /* Make save/cancel buttons equal width */
+  }
+}
+
+/* 11. SMOOTH ANIMATIONS
+   ------------------------ */
+@keyframes gentlePop {
+  0% { transform: scale(0.98); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.task-item {
+  animation: gentlePop 0.2s ease-out; /* Each task gently appears */
+}
